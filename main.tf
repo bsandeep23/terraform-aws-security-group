@@ -15,6 +15,6 @@ resource "aws_security_group_rule" "this" {
   from_port         = var.sg_rules[count.index].from_port
   to_port           = var.sg_rules[count.index].to_port
   protocol          = var.sg_rules[count.index].protocol
-  cidr_blocks       = var.ip_list
+  cidr_blocks       = coalescelist(lookup(var.sg_rules[count.index], "ip_list", []), var.ip_list)
   type              = var.sg_rules[count.index].type
 }
